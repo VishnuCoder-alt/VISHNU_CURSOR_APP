@@ -1,0 +1,93 @@
+<html>
+<head>
+<title>Calculator</title>
+<style>
+body {
+  font-family: sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f0f0f0, #d0d0d0);
+}
+
+.calculator {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+}
+
+button {
+  background-color: #eee;
+  border: none;
+  border-radius: 5px;
+  padding: 15px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ddd;
+}
+
+#display {
+  grid-column: 1 / 5;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 10px;
+  font-size: 20px;
+  text-align: right;
+}
+</style>
+</head>
+<body>
+<div class = "calculator">
+  <input type="text" id="display" readonly>
+  <button onclick="appendNumber('7')">7</button>
+  <button onclick="appendNumber('8')">8</button>
+  <button onclick="appendNumber('9')">9</button>
+  <button onclick="appendOperator('/')">/</button>
+  <button onclick="appendNumber('4')">4</button>
+  <button onclick="appendNumber('5')">5</button>
+  <button onclick="appendNumber('6')">6</button>
+  <button onclick="appendOperator('*')">*</button>
+  <button onclick="appendNumber('1')">1</button>
+  <button onclick="appendNumber('2')">2</button>
+  <button onclick="appendNumber('3')">3</button>
+  <button onclick="appendOperator('-')">-</button>
+  <button onclick="appendNumber('0')">0</button>
+  <button onclick="appendNumber('.')">.</button>
+  <button onclick="calculate()">=</button>
+  <button onclick="appendOperator('+')">+</button>
+  <button onclick="clearDisplay()">C</button>
+</div>
+<script>
+let display = document.getElementById('display');
+
+function appendNumber(number) {
+  display.value += number;
+}
+
+function appendOperator(operator) {
+  display.value += operator;
+}
+
+function calculate() {
+  try {
+    display.value = eval(display.value);
+  } catch (error) {
+    display.value = 'Error';
+  }
+}
+
+function clearDisplay() {
+  display.value = '';
+}
+</script>
+</body>
+</html>
