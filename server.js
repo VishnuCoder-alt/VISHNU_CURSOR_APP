@@ -28,6 +28,10 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const baseWorkspace = path.join(__dirname, 'workspace');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 app.use('/preview', express.static(baseWorkspace));
 app.use(express.json());
 
