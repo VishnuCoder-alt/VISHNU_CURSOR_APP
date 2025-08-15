@@ -16,7 +16,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const asyncExecute = promisify(exec);
 const platform = os.platform();
 const History = [];
@@ -27,13 +27,9 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 const baseWorkspace = path.join(__dirname, 'workspace');
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.use('/preview', express.static(baseWorkspace));
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/preview', express.static(baseWorkspace));
 
 // ---------- TOOLS ----------
 async function executeCommand({ command }) {
@@ -212,6 +208,11 @@ app.get('/download/:folder', (req, res) => {
   archive.pipe(res);
   archive.directory(folderPath, false);
   archive.finalize();
+});
+
+// Catch-all route should be registered last for SPA fallback
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(port, () => {
